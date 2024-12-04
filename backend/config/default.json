@@ -3,5 +3,7 @@
   "jwtSecret": "secret",
   "githubToken": "<yoursecrectaccesstoken>",
   "supportEmail": "oxstocksweb@gmail.com",
-  "supportEmailPassword": "OxStocks.com"
+  "supportEmailPassword": "OxStocks.com",
+  "key": "9a8275d5873b45685374",
+  "PINATA_SECRET": "ab83fd44ea098b35fd03a41587e2e04566777e86b47c533bf21d58020aa92a07"
 }

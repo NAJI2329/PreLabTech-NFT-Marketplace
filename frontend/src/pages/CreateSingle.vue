@@ -404,7 +404,13 @@ export default {
       this.auth.user.chain
     );
     this.collections = _colletions;
-    this.collections = _colletions.filter(item => item.type == "single");
+    if ((await this.currentChain()) == "ethereum") {
+      this.collections = _colletions.filter(item => item.type == "721");
+    } else if ((await this.currentChain()) == "solana") {
+      this.collections = _colletions.filter(item => item.type == "single");
+    } else {
+      this.collections = [];
+    }
     // this.collections = ["Select"];
   },
   methods: {
@@ -551,7 +557,7 @@ export default {
           formData.append("collection_symbol", this.NFTData.collection.symbol);
           
           let attr = [];
-          this.NFTData.attributes.map(item => attr.push([{"trait_type": item[0]},{"value": item[1]}]));
+          this.NFTData.attributes.map(item => attr.push({"trait_type": item[0],"value": item[1]}));
           formData.append("collection_attributes", attr)
           
           formData.append("creater", this.auth.user.address);
@@ -578,6 +584,7 @@ export default {
             let master_edition = (await PublicKey.findProgramAddress([Buffer.from('metadata'),TOKEN_METADATA_PROGRAM_ID.toBuffer(),mint.publicKey.toBuffer(),Buffer.from('edition')],TOKEN_METADATA_PROGRAM_ID))[0]
 
             let data = res.metadata;
+            console.log(data);
             data.creators[0].address = owner
             let transaction = new Transaction()
             transaction.add(
